@@ -940,6 +940,17 @@ function irASlide(index) {
 function cambiarSlide(dir) { irASlide(currentSlide + dir); }
 function reiniciarAutoplay() { clearInterval(sliderTimer); sliderTimer = setInterval(() => cambiarSlide(1), 3600); }
 
+function intentarAutoplayMusica() {
+  const m = document.getElementById("music");
+  const playPromise = m.play();
+  if (playPromise !== undefined) {
+    playPromise.catch(function(error) {
+      // Fallo silencioso: el navegador bloqueó el autoplay.
+      // El usuario podrá reproducir la música utilizando el botón de la interfaz.
+    });
+  }
+}
+
 // Inicialización
 aplicarColoresYFuentes();
 aplicarEdicionAvanzada();
@@ -948,6 +959,7 @@ configurarExtras();
 actualizarCuentaRegresiva();
 setInterval(actualizarCuentaRegresiva, 1000);
 window.addEventListener("load", iniciarCarrusel);
+window.addEventListener("load", intentarAutoplayMusica); // <- Nueva función añadida
 
 </script>
 </body>
