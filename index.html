@@ -5,11 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Invitación - 15 años</title>
 
+<!-- Fuentes de Google -->
 <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:wght@400;500;600;700&family=Dancing+Script:wght@500;600;700&family=EB+Garamond:wght@400;500;600;700&family=Forum&family=Great+Vibes&family=Josefin+Sans:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&family=Lora:wght@400;500;600;700&family=Marcellus&family=Montserrat:wght@400;500;600;700&family=Parisienne&family=Petit+Formal+Script&family=Playfair+Display:wght@500;600;700&family=Poppins:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&family=Sacramento&display=swap" rel="stylesheet">
+<!-- Iconos -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <style>
 :root {
+  /* Estas variables se actualizarán desde el JS automáticamente */
   --color-fondo: #080607;
   --color-nombre: #9b223a;
   --color-mis15: #e8b7c6;
@@ -36,145 +39,168 @@
   --color-overlay-centro: rgba(0, 0, 0, 0.16);
   --sombra: rgba(0, 0, 0, 0.28);
   --title-font: 'Great Vibes', cursive;
-  --interlineado-box: 1.9;
   --body-font: 'Cormorant Garamond', serif;
-  --interlineado-box: 2.3;
---interlineado-frases: 1.55;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 
-html {
-  scroll-behavior: smooth;
-}
-
+/* REQUERIMIENTO 8: VISTA DE CELULAR EN COMPUTADORAS */
 body {
   font-family: var(--body-font);
-  background: var(--color-fondo);
+  background-color: #050505; /* Fondo exterior para PC */
   color: var(--color-texto-suelto);
-  overflow-x: hidden;
-  padding-bottom: 56px;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
 }
 
-.background {
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  overflow: hidden;
-  background: var(--color-fondo);
-}
-
-.background video {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-.bg-video-fill {
-  display: none;
+.mobile-wrapper {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
-  filter: blur(26px) brightness(0.42) contrast(1.08) saturate(1.15);
+  max-width: 480px; /* Tamaño del marco (celular) */
+  min-height: 100vh;
+  position: relative;
+  background: var(--color-fondo);
+  box-shadow: 0 0 40px rgba(0, 0, 0, 0.9);
+  overflow-x: clip; /* Usamos clip para evitar scroll lateral sin romper el efecto sticky del fondo */
+  display: flex;
+  flex-direction: column;
 }
 
-.bg-video-main {
+/* =========================================
+   NUEVO SISTEMA DE FONDO FIJO (STICKY)
+   ========================================= */
+.video-container {
+  position: absolute;
+  top: 0; left: 0; 
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.sticky-bg {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sticky-bg video {
+  position: absolute;
+  top: 0; left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center center;
-  filter: brightness(1.0) contrast(1.08) saturate(1.08);
-  transform: scale(1.02);
+  filter: brightness(0.95) contrast(1.05) saturate(1.08);
 }
 
 .overlay {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 100%;
   background:
     linear-gradient(180deg, var(--color-overlay-arriba), var(--color-overlay-abajo)),
     radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.12), transparent 35%);
 }
+/* ========================================= */
 
+.content-layer {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding-bottom: 56px;
+}
+
+/* HERO SECTION */
 .hero {
   min-height: 100svh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 24px 18px 70px;
+  padding: 10px 18px 70px;
   position: relative;
 }
 
 .hero-content {
-  width: min(820px, 100%);
+  width: 100%;
+}
+
+/* REQUERIMIENTO 1 y 3: TEXTOS LIBRES EDITABLES DESDE VARIABLES CSS */
+.mis15 {
+  font-family: var(--m15-font, var(--title-font));
+  font-size: var(--m15-size, clamp(4.5rem, 12vw, 5.5rem));
+  color: var(--m15-color, var(--color-mis15));
+  margin-top: var(--m15-mt, 0px);
+  margin-bottom: var(--m15-mb, 15px);
+  margin-left: var(--m15-ml, 0px);
+  margin-right: var(--m15-mr, 0px);
+  line-height: var(--m15-lh, 0.9);
+  font-weight: 400;
+  display: block;
+  width: fit-content;
+  margin-inline: auto;
 }
 
 .nombrecumpleanera {
-  font-family: var(--title-font);
-  font-size: clamp(3.4rem, min(8.5vw, 8vh), 5.8rem);
-  line-height: 0.9;
-  color: var(--color-nombre);
+  font-family: var(--nom-font, var(--title-font));
+  font-size: var(--nom-size, clamp(3.4rem, 10vw, 5.8rem));
+  color: var(--nom-color, var(--color-nombre));
+  margin-top: var(--nom-mt, 0px);
+  margin-bottom: var(--nom-mb, 20px);
+  margin-left: var(--nom-ml, 0px);
+  margin-right: var(--nom-mr, 0px);
+  line-height: var(--nom-lh, 0.9);
+  font-weight: 400;
   -webkit-text-stroke: 0.6px rgba(255, 255, 255, 0.28);
   text-shadow:
     0 1px 0 rgba(255, 255, 255, 0.35),
     0 4px 8px rgba(0, 0, 0, 0.35),
     0 14px 38px var(--sombra),
     0 0 24px rgba(255, 255, 255, 0.22);
-  font-weight: 400;
-  font-synthesis: none;
-  position: relative;
   display: block;
   width: fit-content;
-  margin: 0 auto;
-  animation: none;
+  margin-inline: auto;
 }
 
-.mis15 {
-  font-family: var(--title-font);
-  font-size: clamp(5rem, min(8vw, 8vh), 5.2rem);
-  color: var(--color-mis15);
-  line-height: 0.9;
-  font-weight: 400;
-  font-synthesis: none;
-  position: relative;
-  display: block;
-  width: fit-content;
-  margin: 0 auto 18px;
-  animation: none;
-}
-
-.frase-hero,
-.frase-final {
-  font-family: var(--title-font);
-  font-size: clamp(2rem, min(5.4vw, 6vh), 3.8rem); //cambair tamaño de los textos sueltos
-  line-height: 1.55;
-  margin-top: 38px;
-  color: var(--color-texto-suelto);
+.frase-hero {
+  font-family: var(--intro-font, var(--title-font));
+  font-size: var(--intro-size, clamp(1.8rem, 6vw, 2.8rem));
+  color: var(--intro-color, var(--color-texto-suelto));
+  margin-top: var(--intro-mt, 15px);
+  margin-bottom: var(--intro-mb, 30px);
+  margin-left: var(--intro-ml, 5px);
+  margin-right: var(--intro-mr, 5px);
+  line-height: var(--intro-lh, 1.4);
   text-shadow: 0 10px 34px var(--sombra);
 }
 
+.frase-final {
+  font-family: var(--fin-font, var(--title-font));
+  font-size: var(--fin-size, clamp(1.8rem, 6vw, 2.8rem));
+  color: var(--fin-color, var(--color-texto-suelto));
+  margin-top: var(--fin-mt, 10px);
+  margin-bottom: var(--fin-mb, 10px);
+  margin-left: var(--fin-ml, 0px);
+  margin-right: var(--fin-mr, 0px);
+  line-height: var(--fin-lh, 1.4);
+  text-shadow: 0 10px 34px var(--sombra);
+}
 
-
-
+/* REQUERIMIENTO 2: BOTONES MÁS JUNTOS Y ALINEADOS */
 .acciones {
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 30px;
+  gap: var(--distancia-botones, 15px);
+  margin-top: 25px;
 }
-.btn-musica{
-  margin-left: 180px;
-  margin-top: 65px;
-             }
-.btn,
-a.button {
+
+.btn, a.button {
   font-family: var(--body-font);
   font-size: 1.05rem;
   font-weight: 700;
@@ -195,8 +221,14 @@ a.button {
   box-shadow: 0 10px 28px var(--sombra);
 }
 
-.btn:hover,
-a.button:hover {
+.btn-musica {
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  border-radius: 50%;
+}
+
+.btn:hover, a.button:hover {
   transform: translateY(-2px);
   filter: brightness(1.05);
   box-shadow: 0 14px 34px var(--sombra);
@@ -206,8 +238,7 @@ a.button:hover {
   position: absolute;
   bottom: 22px;
   left: 50%;
-  left: 50%;
-margin-left: -28.125vh;
+  transform: translateX(-50%);
   color: var(--color-icono);
   font-size: 30px;
   animation: bounce 1.5s infinite;
@@ -218,30 +249,15 @@ margin-left: -28.125vh;
   50% { transform: translate(-50%, 10px); }
 }
 
+/* CAJAS DE INFORMACIÓN (BOXES) */
 #info {
   padding: 8px 16px 42px;
 }
-@keyframes brilloSuave {
-  0%, 100% {
-    text-shadow:
-      0 1px 0 rgba(255,255,255,0.35),
-      0 4px 8px rgba(0,0,0,0.35),
-      0 14px 38px rgba(0,0,0,0.28),
-      0 0 15px rgba(255,255,255,0.15);
-  }
 
-  50% {
-    text-shadow:
-      0 1px 0 rgba(255,255,255,0.35),
-      0 4px 8px rgba(0,0,0,0.35),
-      0 14px 38px rgba(0,0,0,0.28),
-      0 0 30px rgba(255,255,255,0.55);
-  }
-}
 .box {
-  width: min(880px, 100%); 
-  margin: 40px auto;
-  padding: clamp(22px, 4vw, 34px);
+  width: 100%; 
+  margin: var(--box-margen-fuera, 35px auto);
+  padding: var(--box-padding, 30px 20px);
   border-radius: 18px;
   background: var(--color-box);
   backdrop-filter: blur(18px);
@@ -253,56 +269,54 @@ margin-left: -28.125vh;
   align-items: center;
   justify-content: center;
   text-align: center;
-  line-height: var(--interlineado-box);
-}
 }
 
+/* REQUERIMIENTO 4: TÍTULOS DE BOXES UNIFICADOS Y EDITABLES */
 .box h2 {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-size: clamp(1.6rem, 4vw, 1.75rem);
+  font-family: var(--tit-box-font, var(--title-font));
+  font-size: var(--tit-box-size, clamp(1.8rem, 6vw, 2.2rem));
+  color: var(--tit-box-color, var(--color-titulo));
+  line-height: var(--tit-box-lh, 1.2);
+  margin-top: var(--tit-box-mt, 0px);
+  margin-bottom: var(--tit-box-mb, 15px);
   font-weight: 700;
-  color: var(--color-titulo);
   letter-spacing: 0.6px;
-  margin-bottom: 18px;
 }
 
-.box h2 i,
-.icon-heading i {
-  color: var(--color-icono);
-}
+.box h2 i { color: var(--color-icono); }
 
-.icon-heading {
-  margin-bottom: 12px;
-  font-size: clamp(1.8rem, 5vw, 2.3rem);
-}
-
-.box p,
-.box-texto,
-.detalle-evento p {
-  font-size: 1.2rem;
-  line-height: var(--interlineado-box);
-  color: var(--color-texto-box);
-}
-
-.box-texto {
+/* REQUERIMIENTO 6: TEXTOS DE BOXES EDITABLES INDEPENDIENTES */
+.texto-box-unificado {
+  font-family: var(--txt-box-font, var(--body-font));
+  font-size: var(--txt-box-size, 1.15rem);
+  color: var(--txt-box-color, var(--color-texto-box));
+  line-height: var(--txt-box-lh, 1.6);
+  margin-top: var(--txt-box-mt, 0px);
+  margin-bottom: var(--txt-box-mb, 15px);
   max-width: 650px;
-  margin-bottom: 20px;
 }
 
-.frase-final {
-  margin: 0 0 20px;
-  line-height: var(--interlineado-frases); /* o 1.55 */
+.box-texto { max-width: 650px; margin-bottom: 20px; }
+
+/* REQUERIMIENTO 5: SEPARADOR PARA CAJA DE FECHA Y LUGAR */
+.separador-caja {
+  width: 65%;
+  height: 1px;
+  background-color: var(--color-box-borde);
+  margin: 20px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 
-
+/* COMPONENTES EXTRAS (CONTADOR, CARRUSEL, REGALO) */
 .countdown {
   display: grid;
   grid-template-columns: repeat(4, minmax(62px, 1fr));
-  gap: 10px;
-  width: min(460px, 100%);
+  gap: 8px;
+  width: 100%;
 }
 
 .time {
@@ -310,8 +324,8 @@ margin-left: -28.125vh;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 82px;
-  padding: 12px 8px;
+  min-height: 78px;
+  padding: 10px 4px;
   border-radius: 14px;
   background: var(--color-mini-box);
   border: 1px solid var(--color-mini-box-borde);
@@ -330,11 +344,7 @@ margin-left: -28.125vh;
   margin-top: 5px;
 }
 
-.carousel {
-  position: relative;
-  width: 100%;
-}
-
+.carousel { position: relative; width: 100%; }
 .carousel-viewport {
   width: 100%;
   overflow: hidden;
@@ -343,13 +353,11 @@ margin-left: -28.125vh;
   background: var(--color-panel);
   touch-action: pan-y;
 }
-
 .carousel-track {
   display: flex;
-  height: clamp(320px, 58vw, 560px);
+  height: clamp(320px, 80vw, 420px);
   transition: transform 0.55s ease;
 }
-
 .slide-frame {
   position: relative;
   min-width: 100%;
@@ -359,94 +367,50 @@ margin-left: -28.125vh;
   overflow: hidden;
   background: var(--color-mini-box);
 }
-
 .slide-bg {
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   object-fit: cover;
-  filter: blur(22px) brightness(0.72) saturate(1.05);
+  filter: blur(22px) brightness(0.72);
   transform: scale(1.12);
   opacity: 0.7;
 }
-
 .slide {
   position: relative;
   z-index: 1;
-  width: 100%;
-  height: 100%;
+  width: 100%; height: 100%;
   object-fit: contain;
   user-select: none;
   pointer-events: none;
 }
-
 .carousel-btn {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 42px;
-  height: 42px;
-  border-radius: 999px;
+  width: 38px; height: 38px;
+  border-radius: 50%;
   border: 1px solid var(--color-boton-borde);
   background: var(--color-panel);
   color: var(--color-texto-box);
-  display: grid;
-  place-items: center;
-  cursor: pointer;
-  z-index: 2;
-  transition: background 0.25s ease, transform 0.25s ease;
+  display: grid; place-items: center;
+  cursor: pointer; z-index: 2;
 }
-
-.carousel-btn:hover {
-  filter: brightness(1.15);
-}
-
-.carousel-btn.prev {
-  left: 12px;
-}
-
-.carousel-btn.next {
-  right: 12px;
-}
-
+.carousel-btn.prev { left: 8px; }
+.carousel-btn.next { right: 8px; }
 .carousel-dots {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 14px;
+  display: flex; justify-content: center; gap: 8px; margin-top: 14px;
 }
-
 .carousel-dot {
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  border: 0;
-  background: var(--color-texto-box-suave);
-  cursor: pointer;
+  width: 9px; height: 9px; border-radius: 50%;
+  border: 0; background: var(--color-texto-box-suave);
 }
+.carousel-dot.active { background: var(--color-icono); transform: scale(1.35); }
 
-.carousel-dot.active {
-  background: var(--color-icono);
-  transform: scale(1.35);
-}
-
-.frase-final {
-  margin: 0 0 20px;
-}
-
-.modulo-opcional[hidden] {
-  display: none;
-}
-
-.box-texto {
-  max-width: 650px;
-  margin-bottom: 20px;
-}
+.modulo-opcional[hidden] { display: none; }
 
 .gift-panel {
-  width: min(520px, 100%);
+  width: 100%;
   margin-top: 18px;
   padding: 18px;
   border-radius: 14px;
@@ -454,1010 +418,466 @@ margin-left: -28.125vh;
   border: 1px solid var(--color-panel-borde);
   text-align: left;
 }
-
-.gift-panel[hidden] {
-  display: none;
-}
-
+.gift-panel[hidden] { display: none; }
 .gift-row {
   display: grid;
-  grid-template-columns: 120px 1fr;
-  gap: 10px;
+  grid-template-columns: 1fr;
+  gap: 2px;
   padding: 8px 0;
   border-bottom: 1px solid var(--color-panel-borde);
   font-size: 1.08rem;
   color: var(--color-texto-box);
+  text-align: center;
 }
+.gift-row:last-child { border-bottom: 0; }
+.gift-row strong { color: var(--color-titulo); }
+.copy-actions { display: flex; gap: 10px; justify-content: center; margin-top: 16px; }
+.copy-btn { min-height: 38px; padding: 9px 14px; font-size: 0.98rem; }
 
-.gift-row:last-child {
-  border-bottom: 0;
-}
-
-.gift-row strong {
-  color: var(--color-titulo);
-}
-
-.copy-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 16px;
-}
-
-.copy-btn {
-  min-height: 38px;
-  padding: 9px 14px;
-  font-size: 0.98rem;
-}
-
-.animated-icon {
-  animation: iconFloat 2.6s ease-in-out infinite;
-  transform-origin: center;
-}
-
-.box:nth-child(2) .animated-icon {
-  animation-delay: 0.2s;
-}
-
-.box:nth-child(3) .animated-icon {
-  animation-delay: 0.4s;
-}
-
-.box:nth-child(4) .animated-icon {
-  animation-delay: 0.6s;
-}
-
-.box:nth-child(5) .animated-icon {
-  animation-delay: 0.8s;
-}
+.animated-icon { animation: iconFloat 2.6s ease-in-out infinite; transform-origin: center; }
+.box:nth-child(2) .animated-icon { animation-delay: 0.2s; }
+.box:nth-child(3) .animated-icon { animation-delay: 0.4s; }
 
 @keyframes iconFloat {
-  0%, 100% {
-    transform: translateY(0) scale(1);
-    filter: drop-shadow(0 0 0 transparent);
-  }
-  50% {
-    transform: translateY(-4px) scale(1.08);
-    filter: drop-shadow(0 0 8px var(--color-icono));
-  }
+  0%, 100% { transform: translateY(0) scale(1); filter: drop-shadow(0 0 0 transparent); }
+  50% { transform: translateY(-4px) scale(1.08); filter: drop-shadow(0 0 8px var(--color-icono)); }
 }
-.final-butterfly{
-  text-align:center;
-  margin-top:25px;
-}
+.final-butterfly { text-align: center; margin-top: 25px; }
+.final-butterfly img { width: 60px; height: auto; opacity: 0.85; }
 
-.final-butterfly img{
-  width:60px;
-  height:auto;
-  opacity:0.85;
-}
-@media (min-width: 900px) {
-  .hero {
-    padding: clamp(34px, 5vh, 64px) 44px 76px;
-  }
-
-  .hero-content {
-    width: min(760px, 100%);
-  }
-
-  .acciones {
-    margin-top: 26px;
-  }
-
-  .btn,
-  a.button {
-    font-size: 1rem;
-  }
-
-  #info {
-    padding: 18px 28px 52px;
-  }
-
-  .box {
-    width: min(760px, 100%);
-    margin: 30px auto;
-    border-radius: 16px;
-  }
-
-  .box p {
-    font-size: 1.16rem;
-  }
-}
-
-@media (min-width: 900px) and (min-aspect-ratio: 4/3) {
-  .bg-video-fill {
-    display: none;
-  }
-
-  .bg-video-main {
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center center;
-    transform: none;
-    box-shadow: none;
-    filter: brightness(0.80) contrast(1.08) saturate(1.08);
-  }
-
-  .overlay {
-    background:
-      linear-gradient(180deg, var(--color-overlay-arriba), var(--color-overlay-abajo)),
-      radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.12), transparent 35%);
-  }
-}
-@media (max-width: 560px) {
-  .acciones {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .btn,
-  a.button {
-    width: auto;
-  }
-
-  .countdown {
-    gap: 8px;
-  }
-
-  .time {
-    min-height: 74px;
-    padding: 10px 4px;
-  }
-
-  .carousel-track {
-    height: auto;
-    aspect-ratio: 1 / 1;
-  }
-
-  .carousel-btn {
-    width: 38px;
-    height: 38px;
-  }
-
-  .gift-row {
-    grid-template-columns: 1fr;
-    gap: 2px;
-    text-align: center;
-  }
+/* Mensaje de llegada del día */
+.mensaje-llegada-texto {
+  font-family: var(--title-font);
+  font-size: clamp(2.5rem, 8vw, 3.5rem);
+  color: var(--color-titulo);
+  margin: 0;
+  animation: iconFloat 3s ease-in-out infinite;
 }
 </style>
 </head>
 
 <body>
 
-<div class="background">
- 
-  <video class="bg-video-main" autoplay muted loop playsinline preload="auto">
-    <source src="fondo.mp4" type="video/mp4">
-  </video>
-</div>
-
-<div class="overlay"></div>
-
-<main>
-  <section class="hero">
-    <div class="hero-content">
-     <div class="mis15">Mis 15<br> 
-       años</div>
-     <h1 id="name" class="nombrecumpleanera"></h1>
-
-      <div class="frase-hero">
-        Se acerca<br> la noche tan soñada...<br>
-        y deseo compartirla<be></be> contigo
-      </div>
-
-      <div class="acciones">
-      <div class="acciones">
-  <button class="btn" type="button" onclick="scrollToInfo()">Ver invitación</button>
-  <button class="btn btn-musica" type="button" onclick="toggleMusic()">
-  <i class="fa-solid fa-music"></i>
-  </button>
-      </div>
-
-      <audio id="music" preload="auto">
-        <source src="musica.mp3" type="audio/mpeg">
-      </audio>
-
-      <div class="scroll-down" aria-hidden="true">↓</div>
-    </div>
-  </section>
-
-  <section id="info">
-    <div class="box">
-      <h2><i class="fa-regular fa-clock animated-icon"></i> Sólo Faltan...</h2>
-      <div class="countdown">
-        <div class="time"><span id="d">0</span><small>Días</small></div>
-        <div class="time"><span id="h">0</span><small>Horas</small></div>
-        <div class="time"><span id="m">0</span><small>Minutos</small></div>
-        <div class="time"><span id="s">0</span><small>Segundos</small></div>
-      </div>
-    </div>
-
-    <div class="box detalle-evento">
-      <h2><i class="fa-regular fa-calendar animated-icon"></i> Fecha y lugar</h2>
-      <p id="dateText"></p>
-      <p id="timeText"></p>
-      <p id="venueText"></p>
-      <p id="addressText"></p>
-    </div>
-
-    <div class="box">
-  <h2><i class="fa-solid fa-location-dot animated-icon"></i> Mira cómo llegar</h2>
-
-  <p class="box-texto">
-    Tocá y conocé el lugar.
-  </p>
-
-  <a id="mapLink" class="button" href="#" target="_blank" rel="noopener">
-    Ver mapa
-  </a>
-</div>
-
-     <div class="box">
-      <h2><i class="fa-solid fa-wand-magic-sparkles animated-icon"></i> Dress code</h2>
-      <p id="dressCodeText"></p>
-    </div>
-    
-    <div class="box">
-      <h2><i class="fa-regular fa-image animated-icon"></i> Mis recuerdos</h2>
-      <div class="carousel" aria-label="Carrete de fotos">
-        <button class="carousel-btn prev" type="button" aria-label="Foto anterior"><i class="fa-solid fa-chevron-left"></i></button>
-        <div class="carousel-viewport">
-          <div id="carouselTrack" class="carousel-track"></div>
-        </div>
-        <button class="carousel-btn next" type="button" aria-label="Foto siguiente"><i class="fa-solid fa-chevron-right"></i></button>
-        <div id="carouselDots" class="carousel-dots" aria-hidden="true"></div>
-      </div>
-    </div>
-
-    <div class="box">
-      <h2 class="icon-heading" aria-label="Confirmación de asistencia"><i class="fa-regular fa-heart animated-icon"></i>Asistencia</h2>
-      <p class="box-texto">
-        Tu presencia<br> 
-        es muy importante para mí.<br>
-        ¡Me encantaría que me acompañes<br> 
-        en esta noche tan especial!
-      </p>
-      <a id="confirmLink" class="button" href="#" target="_blank" rel="noopener">Confirmar asistencia</a>
-    </div>
-
-  <div id="albumFotosModule" class="box modulo-opcional">
-  <h2>
-    <i class="fa-solid fa-camera animated-icon"></i>
-    Álbum de fotos<br>de la fiesta
-  </h2>
-
-  <p class="box-texto">
-    Compartí acá las fotos más lindas que sacaste del cumple!
-  </p>
-
-  <a id="albumFotosLink" class="button" href="#" target="_blank" rel="noopener">
-    Subir fotos
-  </a>
-</div>
-
-<div id="playlistModule" class="box modulo-opcional">
-  <h2><i class="fa-solid fa-record-vinyl animated-icon"></i> ¡Playlist!</h2>
-
-  <p class="box-texto">
-    ¡Ayudame sugiriendo<br>
-    las canciones que pensás<br>
-    que no pueden faltar en la fiesta!
-  </p>
-
-  <a id="playlistLink" class="button" href="#" target="_blank" rel="noopener">
-    Sugerir Canción
-  </a>
-</div>
-
-    <div id="giftModule" class="box modulo-opcional">
-      <h2><i class="fa-solid fa-gift animated-icon"></i> Regalo</h2>
-      <p class="box-texto">
-        El mejor regalo es que vengas,<br>
-        pero si deseás regalarme algo,<br>
-        podés colaborar<br>
-        con mis sueños y anhelos.<br>
-        ¡Muchas gracias!
-      </p>
-      <button class="btn" type="button" onclick="toggleGiftPanel()">Ver Colectivo</button>
-
-      <div id="giftPanel" class="gift-panel" hidden>
-        <div class="gift-row"><strong>Nombre del titular</strong><span id="giftTitular"></span></div>
-        <div class="gift-row"><strong>Banco</strong><span id="giftBanco"></span></div>
-        
-        <div class="gift-row"><strong>Número de cuenta</strong><span id="giftCuenta"></span></div>
-        <div class="gift-row"><strong>CI</strong><span id="giftCi"></span></div>
-        <div class="copy-actions">
+<!-- CONTENEDOR MÓVIL ESTILIZADO -->
+<div class="mobile-wrapper">
   
-          <button class="btn copy-btn" type="button" onclick="copiarDato(CONFIG.regalo.cuenta)">Copiar cuenta</button>
-        </div>
-      </div>
+  <!-- FONDO DE VIDEO FIJO Y EN BUCLE -->
+  <div class="video-container">
+    <div class="sticky-bg">
+      <video class="bg-video-main" autoplay muted loop playsinline preload="auto">
+        <source src="fondo.mp4" type="video/mp4">
+      </video>
+      <div class="overlay"></div>
     </div>
+  </div>
 
-    <div class="box">
-      <div class="frase-final">
-        Te espero para compartir<br>
-        este momento tan especial...<br>
-        ¡Será una noche<br>
-        para recordar siempre!
+  <div class="content-layer">
+    <main>
+      <section class="hero">
+        <div class="hero-content">
+          <!-- Textos Libres Editables -->
+          <div class="mis15">Mis 15<br>años</div>
+          <h1 id="name" class="nombrecumpleanera"></h1>
+          <div class="frase-hero">
+            Se acerca<br> la noche tan soñada...<br>
+            y deseo compartirla contigo
+          </div>
+
+          <div class="acciones">
+            <button class="btn" type="button" onclick="scrollToInfo()">Ver invitación</button>
+            <button class="btn btn-musica" type="button" onclick="toggleMusic()" aria-label="Reproducir música">
+              <i class="fa-solid fa-music"></i>
+            </button>
+          </div>
+
+          <audio id="music" preload="auto">
+            <source src="musica.mp3" type="audio/mpeg">
+          </audio>
+
+          <div class="scroll-down" aria-hidden="true">↓</div>
+        </div>
+      </section>
+
+      <section id="info">
+        <!-- BOX 1: CONTADOR -->
+        <div class="box">
+          <h2><i class="fa-regular fa-clock animated-icon"></i> Sólo Faltan...</h2>
+          
+          <div id="countdown-container" class="countdown">
+            <div class="time"><span id="d">0</span><small>Días</small></div>
+            <div class="time"><span id="h">0</span><small>Horas</small></div>
+            <div class="time"><span id="m">0</span><small>Minutos</small></div>
+            <div class="time"><span id="s">0</span><small>Segundos</small></div>
+          </div>
+          
+          <!-- REQUERIMIENTO 7: Mensaje de "Llegó el día" -->
+          <div id="mensaje-llegada" style="display: none;">
+            <p class="mensaje-llegada-texto">¡Llegó el día!</p>
+          </div>
+        </div>
+
+        <!-- BOX 2: FECHA Y LUGAR -->
+        <div class="box detalle-evento">
+          <h2><i class="fa-regular fa-calendar animated-icon"></i> Fecha:</h2>
+          <p id="dateText" class="texto-box-unificado"></p>
+          <p id="timeText" class="texto-box-unificado"></p>
+          
+          <div class="separador-caja"></div>
+          
+          <h2><i class="fa-solid fa-location-dot animated-icon"></i> Lugar:</h2>
+          <p id="venueText" class="texto-box-unificado"></p>
+          <p id="addressText" class="texto-box-unificado"></p>
+        </div>
+
+        <!-- BOX 3: MAPA -->
+        <div class="box">
+          <h2><i class="fa-solid fa-map-location-dot animated-icon"></i> Mapa</h2>
+          <p class="texto-box-unificado">Tocá y conocé el lugar.</p>
+          <!-- REQUERIMIENTO 10: target="_blank" -->
+          <a id="mapLink" class="button" href="#" target="_blank" rel="noopener noreferrer">Ver mapa</a>
+        </div>
+
+        <!-- BOX 4: DRESS CODE -->
+        <div class="box">
+          <h2><i class="fa-solid fa-wand-magic-sparkles animated-icon"></i> Dress code</h2>
+          <p id="dressCodeText" class="texto-box-unificado"></p>
+        </div>
         
-      </div>
-      
-  <div class="final-butterfly">
-    <img src="" alt="">
+        <!-- BOX 5: CARRUSEL -->
+        <div class="box">
+          <h2><i class="fa-regular fa-image animated-icon"></i> Mis recuerdos</h2>
+          <div class="carousel" aria-label="Carrete de fotos">
+            <button class="carousel-btn prev" type="button" aria-label="Foto anterior"><i class="fa-solid fa-chevron-left"></i></button>
+            <div class="carousel-viewport">
+              <div id="carouselTrack" class="carousel-track"></div>
+            </div>
+            <button class="carousel-btn next" type="button" aria-label="Foto siguiente"><i class="fa-solid fa-chevron-right"></i></button>
+            <div id="carouselDots" class="carousel-dots" aria-hidden="true"></div>
+          </div>
+        </div>
+
+        <!-- BOX 6: ASISTENCIA -->
+        <div class="box">
+          <h2><i class="fa-regular fa-heart animated-icon"></i> Asistencia</h2>
+          <p class="texto-box-unificado">
+            Tu presencia es muy importante para mí.<br>
+            ¡Me encantaría que me acompañes<br>en esta noche tan especial!
+          </p>
+          <!-- REQUERIMIENTO 10: target="_blank" -->
+          <a id="confirmLink" class="button" href="#" target="_blank" rel="noopener noreferrer">Confirmar asistencia</a>
+        </div>
+
+        <!-- BOX 7: ÁLBUM FOTOS -->
+        <div id="albumFotosModule" class="box modulo-opcional">
+          <h2><i class="fa-solid fa-camera animated-icon"></i> Álbum de la fiesta</h2>
+          <p class="texto-box-unificado">Compartí acá las fotos más lindas que sacaste del cumple!</p>
+          <!-- REQUERIMIENTO 10: target="_blank" -->
+          <a id="albumFotosLink" class="button" href="#" target="_blank" rel="noopener noreferrer">Subir fotos</a>
+        </div>
+
+        <!-- BOX 8: PLAYLIST -->
+        <div id="playlistModule" class="box modulo-opcional">
+          <h2><i class="fa-solid fa-record-vinyl animated-icon"></i> ¡Playlist!</h2>
+          <p class="texto-box-unificado">¡Ayudame sugiriendo las canciones que pensás que no pueden faltar en la fiesta!</p>
+          <!-- REQUERIMIENTO 10: target="_blank" -->
+          <a id="playlistLink" class="button" href="#" target="_blank" rel="noopener noreferrer">Sugerir Canción</a>
+        </div>
+
+        <!-- BOX 9: REGALO -->
+        <div id="giftModule" class="box modulo-opcional">
+          <h2><i class="fa-solid fa-gift animated-icon"></i> Regalo</h2>
+          <p class="texto-box-unificado">
+            El mejor regalo es que vengas, pero si deseás regalarme algo, podés colaborar con mis sueños y anhelos.<br>¡Muchas gracias!
+          </p>
+          <button class="btn" type="button" onclick="toggleGiftPanel()">Ver Colectivo</button>
+
+          <div id="giftPanel" class="gift-panel" hidden>
+            <div class="gift-row"><strong>Titular:</strong><span id="giftTitular"></span></div>
+            <div class="gift-row"><strong>Banco:</strong><span id="giftBanco"></span></div>
+            <div class="gift-row"><strong>Cuenta:</strong><span id="giftCuenta"></span></div>
+            <div class="gift-row"><strong>CI:</strong><span id="giftCi"></span></div>
+            <div class="copy-actions">
+              <button class="btn copy-btn" type="button" onclick="copiarDato(CONFIG.regalo.cuenta)">Copiar cuenta</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- DESPEDIDA -->
+        <div class="box">
+          <div class="frase-final">
+            Te espero para compartir<br>
+            este momento tan especial...<br>
+            ¡Será una noche<br>
+            para recordar siempre!
+          </div>
+          <div class="final-butterfly">
+            <img src="" alt="">
+          </div>
+        </div>
+      </section>
+    </main>
   </div>
 </div>
-</section>
-</main>
-      
+
 <script>
-/*
-  CAMBIOS FACILES
-
-  1. Para cambiar datos de la invitacion, edita CONFIG.
-  2. Para cambiar colores rapido, cambia solo "paleta".
-  3. Para cambiar letras rapido, cambia solo "fuentes".
-  4. Para cambiar un color exacto, escribe el color en CONFIG.colores.
-     Si dejas un color como "", se usa el color de la paleta elegida.
-
-  Ejemplos de colores:
-  "#ffffff" blanco
-  "#000000" negro
-  "#e8b7c6" rosa
-  "rgba(255, 255, 255, 0.20)" blanco transparente
-
-  PALETAS DISPONIBLES:
-  "rosa", "blush", "lila", "lavanda", "celeste", "mar",
-  "dorado", "champan", "verde", "esmeralda", "borgona", "coral",
-  "perla", "noche", "blancoDorado"
-
-  LETRAS DISPONIBLES:
-  "elegante", "romantica", "moderna", "dulce", "clasica",
-  "glam", "princesa", "editorial", "minimal", "boho",
-  "delicada", "formal"
-*/
-
+// ========================================================================
+// CONFIGURACIÓN PRINCIPAL (DATOS)
+// ========================================================================
 const CONFIG = {
+  // --- PALETA Y FUENTES GLOBALES ---
   paleta: "esmeralda",
   fuentes: "Petit Formal Script",
 
   colores: {
-    fondo: "",
-    nombre: "#00B893",
-    mis15: "",
-    textosSueltos: "",
-    titulos: "editorial",
-    iconos: "",
-    textoBoxes: "editorial",
-    textoBoxesSuave: "",
-    boxes: "",
-    bordeBoxes: "",
-    botonFondo1: "",
-    botonFondo2: "",
-    botonTexto: "",
-    botonBorde: "",
-    contadorNumeros: "",
-    contadorTexto: "",
-    miniBoxes: "",
-    bordeMiniBoxes: "",
-    panelRegalo: "",
-    bordePanelRegalo: "",
-    overlayArriba: "",
-    overlayAbajo: "",
-    overlayLados: "",
-    overlayCentro: "",
-    sombra: ""
+    fondo: "", nombre: "#00B893", mis15: "", textosSueltos: "", titulos: "editorial",
+    iconos: "", textoBoxes: "editorial", textoBoxesSuave: "", boxes: "", bordeBoxes: "",
+    botonFondo1: "", botonFondo2: "", botonTexto: "", botonBorde: "", contadorNumeros: "",
+    contadorTexto: "", miniBoxes: "", bordeMiniBoxes: "", panelRegalo: "", bordePanelRegalo: "",
+    overlayArriba: "", overlayAbajo: "", overlayLados: "", overlayCentro: "", sombra: ""
   },
 
- mostrarRegalo: true,
-mostrarPlaylist: true,
-mostrarAlbumFotos: true,
+  // --- REQUERIMIENTO 9: MENÚ DE EDICIÓN AVANZADA DE TEXTOS Y MÁRGENES ---
+  edicionAvanzada: {
+    textos: {
+      mis15: { // Ajusta el texto "Mis 15 años" superior
+        margenArriba: "40px",   // Sube o baja el texto del techo (ej: "80px", "20px")
+        margenAbajo: "15px",    // Separación con el nombre de la quinceañera
+        margenIzquierda: "0px",
+        margenDerecha: "0px",
+        fuente: "var(--title-font)", 
+        tamaño: "clamp(4.5rem, 12vw, 5.5rem)", // Tamaño de letra
+        color: "var(--color-mis15)",
+        interlineado: "0.9"
+      },
+      nombre: { // Ajusta el nombre de la cumpleañera
+        margenArriba: "0px",
+        margenAbajo: "20px",    // Separación con la frase introductoria
+        margenIzquierda: "0px",
+        margenDerecha: "0px",
+        fuente: "var(--title-font)",
+        tamaño: "clamp(3.4rem, 10vw, 5.8rem)",
+        color: "var(--color-nombre)",
+        interlineado: "0.9"
+      },
+      introduccion: { // Ajusta la frase que dice "Se acerca la noche tan soñada..."
+        margenArriba: "15px",
+        margenAbajo: "30px",    // Separación con los botones
+        margenIzquierda: "5px",
+        margenDerecha: "5px",
+        fuente: "var(--title-font)",
+        tamaño: "clamp(1.8rem, 6vw, 2.8rem)",
+        color: "var(--color-texto-suelto)",
+        interlineado: "1.4"
+      },
+      mensajeFinal: { // Ajusta el mensaje final de despedida
+        margenArriba: "10px",
+        margenAbajo: "10px",
+        margenIzquierda: "0px",
+        margenDerecha: "0px",
+        fuente: "var(--title-font)",
+        tamaño: "clamp(1.8rem, 6vw, 2.8rem)",
+        color: "var(--color-texto-suelto)",
+        interlineado: "1.4"
+      }
+    },
+    cajas: { // Todo lo relacionado a los Boxes transparentes
+      titulos: { // Títulos como "Sólo Faltan", "Fecha", "Lugar", "Asistencia" (Todos iguales)
+        fuente: "var(--title-font)",
+        tamaño: "clamp(1.8rem, 6vw, 2.2rem)",
+        color: "var(--color-titulo)",
+        margenArriba: "0px",
+        margenAbajo: "15px",
+        interlineado: "1.2"
+      },
+      textos: { // Textos informativos de adentro de las cajas
+        fuente: "var(--body-font)",
+        tamaño: "1.15rem",
+        color: "var(--color-texto-box)",
+        margenArriba: "0px",
+        margenAbajo: "15px",
+        interlineado: "1.6"
+      },
+      diseñoBox: {
+        margenExterior: "30px auto", // Separación entre caja y caja (arriba-abajo auto)
+        rellenoInterior: "30px 20px" // Espacio interno de la caja (arriba-abajo, izquierda-derecha)
+      }
+    },
+    botones: {
+      distanciaEntreBotones: "15px" // Regula la separación entre el botón de Ver Invitación y el de Música
+    }
+  },
+
+  // --- DATOS DE LA FIESTA ---
+  mostrarRegalo: true,
+  mostrarPlaylist: true,
+  mostrarAlbumFotos: true,
   playlistTipo: "google", 
-playlistLink: "https://docs.google.com/forms/d/e/1FAIpQLSc0M2amKtZmo0LQ6-le8baC1yZ47R-IweK83PalYt0EIObJGA/viewform?usp=sharing&ouid=108226770807790576500",
-spotifyLink: "https://open.spotify.com/playlist/XXXXXXXX",
-whatsappPlaylist: "123456789",
+  playlistLink: "https://docs.google.com/forms/d/e/...", // Aquí tu link
+  spotifyLink: "https://open.spotify.com/playlist/XXXXXXXX",
+  whatsappPlaylist: "123456789",
   nombre: "Julieta",
   fechaEvento: "2026-10-17T20:00:00",
-  fechaTexto: "El sábado 17 de octubre",
-  horaTexto: "A partir de las 20:00 horas",
-  salon: "En Salón Aurora Palace",
+  fechaTexto: "Sábado 17 de octubre",
+  horaTexto: "A partir de las 20:00 hs",
+  salon: "Aurora Palace",
   direccion: "Avenida Las Flores 2020",
   mapa: "https://maps.app.goo.gl/cKfbAR5rutndHhUD8",
   dressCode: "Semi-formal<br>Reservamos el color blanco<br>para mi vestimenta",
-  formularioAsistencia: "https://docs.google.com/forms/d/e/1FAIpQLScZhjYcfePL1Ylu4gyruySPntMRvHBywHx09yzgDPboeVvNSQ/viewform?usp=sharing&ouid=108226770807790576500",
-  albumFotosLink: "https://docs.google.com/forms/d/e/1FAIpQLScmQNGoapK8xgvTQfr6dpjUac8bcL_V44ABJwGHziPkILef2A/viewform?usp=sharing&ouid=108226770807790576500",
+  formularioAsistencia: "https://docs.google.com/forms/d/e/...", // Aquí tu link
+  albumFotosLink: "https://docs.google.com/forms/d/e/...", // Aquí tu link
   mensajePlaylistWhatsApp: "Hola, quiero sugerir una canción para la fiesta: ",
   regalo: {
     titular: "Nombre Apellido",
     banco: "Banco XXXX",
-   
     cuenta: "1234567890",
     ci: "1.234.567-8"
   },
   fotos: [
-    "foto1.jpg",
-    "foto2.jpg",
-    "foto3.jpg",
-    "foto4.jpg",
-    "foto5.jpg",
-    "foto6.jpg",
-    "foto7.jpg",
-    "foto8.jpg",
-    "foto9.jpg",
-    "foto10.jpg"
+    "foto1.jpg", "foto2.jpg", "foto3.jpg"
   ]
 };
 
+// ========================================================================
+// SISTEMA (NO ES NECESARIO MODIFICAR ABAJO DE ESTA LÍNEA)
+// ========================================================================
 const PALETAS = {
-  rosa: {
-    fondo: "#080607",
-    nombre: "#9b223a",
-    mis15: "#e8b7c6",
-    textosSueltos: "#ffffff",
-    titulos: "#e8b7c6",
-    iconos: "#e8b7c6",
-    textoBoxes: "#ffffff",
-    textoBoxesSuave: "rgba(255, 255, 255, 0.78)",
-    boxes: "rgba(255, 235, 242, 0.18)",
-    bordeBoxes: "rgba(255, 255, 255, 0.25)",
-    botonFondo1: "#e8b7c6",
-    botonFondo2: "#ffe3eb",
-    botonTexto: "#211318",
-    botonBorde: "rgba(255, 255, 255, 0.30)",
-    contadorNumeros: "#ffe3eb",
-    contadorTexto: "rgba(255, 255, 255, 0.78)",
-    miniBoxes: "rgba(0, 0, 0, 0.26)",
-    bordeMiniBoxes: "rgba(255, 255, 255, 0.12)",
-    panelRegalo: "rgba(0, 0, 0, 0.28)",
-    bordePanelRegalo: "rgba(255, 255, 255, 0.16)",
-    overlayArriba: "rgba(0, 0, 0, 0.34)",
-    overlayAbajo: "rgba(0, 0, 0, 0.58)",
-    overlayLados: "rgba(0, 0, 0, 0.50)",
-    overlayCentro: "rgba(0, 0, 0, 0.16)",
-    sombra: "rgba(0, 0, 0, 0.28)"
-  },
-  blush: {
-    fondo: "#10090c",
-    nombre: "#fff7f9",
-    mis15: "#f4a7bb",
-    textosSueltos: "#fff7f9",
-    titulos: "#f4a7bb",
-    iconos: "#ffd1dc",
-    textoBoxes: "#fff7f9",
-    textoBoxesSuave: "rgba(255, 247, 249, 0.78)",
-    boxes: "rgba(255, 210, 224, 0.18)",
-    bordeBoxes: "rgba(255, 230, 238, 0.28)",
-    botonFondo1: "#f4a7bb",
-    botonFondo2: "#ffe1e9",
-    botonTexto: "#281018",
-    botonBorde: "rgba(255, 255, 255, 0.32)",
-    contadorNumeros: "#ffe1e9",
-    contadorTexto: "rgba(255, 247, 249, 0.78)",
-    miniBoxes: "rgba(0, 0, 0, 0.27)",
-    bordeMiniBoxes: "rgba(255, 255, 255, 0.13)",
-    panelRegalo: "rgba(0, 0, 0, 0.30)",
-    bordePanelRegalo: "rgba(255, 255, 255, 0.17)",
-    overlayArriba: "rgba(0, 0, 0, 0.34)",
-    overlayAbajo: "rgba(0, 0, 0, 0.60)",
-    overlayLados: "rgba(0, 0, 0, 0.52)",
-    overlayCentro: "rgba(0, 0, 0, 0.17)",
-    sombra: "rgba(0, 0, 0, 0.30)"
-  },
-  lila: {
-    fondo: "#080711",
-    nombre: "#ffffff",
-    mis15: "#c9b6ff",
-    textosSueltos: "#ffffff",
-    titulos: "#c9b6ff",
-    iconos: "#dbcfff",
-    textoBoxes: "#ffffff",
-    textoBoxesSuave: "rgba(255, 255, 255, 0.78)",
-    boxes: "rgba(231, 222, 255, 0.18)",
-    bordeBoxes: "rgba(255, 255, 255, 0.24)",
-    botonFondo1: "#c9b6ff",
-    botonFondo2: "#efe7ff",
-    botonTexto: "#171023",
-    botonBorde: "rgba(255, 255, 255, 0.30)",
-    contadorNumeros: "#efe7ff",
-    contadorTexto: "rgba(255, 255, 255, 0.78)",
-    miniBoxes: "rgba(0, 0, 0, 0.26)",
-    bordeMiniBoxes: "rgba(255, 255, 255, 0.12)",
-    panelRegalo: "rgba(0, 0, 0, 0.28)",
-    bordePanelRegalo: "rgba(255, 255, 255, 0.16)",
-    overlayArriba: "rgba(0, 0, 0, 0.34)",
-    overlayAbajo: "rgba(0, 0, 0, 0.58)",
-    overlayLados: "rgba(0, 0, 0, 0.50)",
-    overlayCentro: "rgba(0, 0, 0, 0.16)",
-    sombra: "rgba(0, 0, 0, 0.28)"
-  },
-  lavanda: {
-    fondo: "#0b0a16",
-    nombre: "#fbf9ff",
-    mis15: "#bfa7ff",
-    textosSueltos: "#fbf9ff",
-    titulos: "#d4c5ff",
-    iconos: "#bfa7ff",
-    textoBoxes: "#fbf9ff",
-    textoBoxesSuave: "rgba(251, 249, 255, 0.76)",
-    boxes: "rgba(214, 199, 255, 0.17)",
-    bordeBoxes: "rgba(238, 230, 255, 0.25)",
-    botonFondo1: "#bfa7ff",
-    botonFondo2: "#f0eaff",
-    botonTexto: "#171024",
-    botonBorde: "rgba(255, 255, 255, 0.30)",
-    contadorNumeros: "#f0eaff",
-    contadorTexto: "rgba(251, 249, 255, 0.76)",
-    miniBoxes: "rgba(0, 0, 0, 0.27)",
-    bordeMiniBoxes: "rgba(255, 255, 255, 0.12)",
-    panelRegalo: "rgba(0, 0, 0, 0.29)",
-    bordePanelRegalo: "rgba(255, 255, 255, 0.16)",
-    overlayArriba: "rgba(0, 0, 0, 0.34)",
-    overlayAbajo: "rgba(0, 0, 0, 0.59)",
-    overlayLados: "rgba(0, 0, 0, 0.50)",
-    overlayCentro: "rgba(0, 0, 0, 0.16)",
-    sombra: "rgba(0, 0, 0, 0.29)"
-  },
-  celeste: {
-    fondo: "#061014",
-    nombre: "#ffffff",
-    mis15: "#a9d8ee",
-    textosSueltos: "#ffffff",
-    titulos: "#a9d8ee",
-    iconos: "#d8f3ff",
-    textoBoxes: "#ffffff",
-    textoBoxesSuave: "rgba(255, 255, 255, 0.78)",
-    boxes: "rgba(220, 245, 255, 0.18)",
-    bordeBoxes: "rgba(255, 255, 255, 0.24)",
-    botonFondo1: "#a9d8ee",
-    botonFondo2: "#e0f5ff",
-    botonTexto: "#071820",
-    botonBorde: "rgba(255, 255, 255, 0.30)",
-    contadorNumeros: "#e0f5ff",
-    contadorTexto: "rgba(255, 255, 255, 0.78)",
-    miniBoxes: "rgba(0, 0, 0, 0.26)",
-    bordeMiniBoxes: "rgba(255, 255, 255, 0.12)",
-    panelRegalo: "rgba(0, 0, 0, 0.28)",
-    bordePanelRegalo: "rgba(255, 255, 255, 0.16)",
-    overlayArriba: "rgba(0, 0, 0, 0.34)",
-    overlayAbajo: "rgba(0, 0, 0, 0.58)",
-    overlayLados: "rgba(0, 0, 0, 0.50)",
-    overlayCentro: "rgba(0, 0, 0, 0.16)",
-    sombra: "rgba(0, 0, 0, 0.28)"
-  },
-  mar: {
-    fondo: "#031214",
-    nombre: "#f4ffff",
-    mis15: "#7ddbd2",
-    textosSueltos: "#f4ffff",
-    titulos: "#7ddbd2",
-    iconos: "#bdf7f0",
-    textoBoxes: "#f4ffff",
-    textoBoxesSuave: "rgba(244, 255, 255, 0.76)",
-    boxes: "rgba(167, 242, 232, 0.16)",
-    bordeBoxes: "rgba(224, 255, 251, 0.24)",
-    botonFondo1: "#7ddbd2",
-    botonFondo2: "#d8fff9",
-    botonTexto: "#041918",
-    botonBorde: "rgba(255, 255, 255, 0.30)",
-    contadorNumeros: "#d8fff9",
-    contadorTexto: "rgba(244, 255, 255, 0.76)",
-    miniBoxes: "rgba(0, 0, 0, 0.28)",
-    bordeMiniBoxes: "rgba(255, 255, 255, 0.12)",
-    panelRegalo: "rgba(0, 0, 0, 0.30)",
-    bordePanelRegalo: "rgba(255, 255, 255, 0.16)",
-    overlayArriba: "rgba(0, 0, 0, 0.36)",
-    overlayAbajo: "rgba(0, 0, 0, 0.60)",
-    overlayLados: "rgba(0, 0, 0, 0.52)",
-    overlayCentro: "rgba(0, 0, 0, 0.17)",
-    sombra: "rgba(0, 0, 0, 0.30)"
-  },
-  dorado: {
-    fondo: "#0d0904",
-    nombre: "#ffffff",
-    mis15: "#e7c573",
-    textosSueltos: "#ffffff",
-    titulos: "#e7c573",
-    iconos: "#fff1c8",
-    textoBoxes: "#ffffff",
-    textoBoxesSuave: "rgba(255, 255, 255, 0.78)",
-    boxes: "rgba(255, 241, 200, 0.16)",
-    bordeBoxes: "rgba(255, 255, 255, 0.22)",
-    botonFondo1: "#e7c573",
-    botonFondo2: "#fff1c8",
-    botonTexto: "#241704",
-    botonBorde: "rgba(255, 255, 255, 0.30)",
-    contadorNumeros: "#fff1c8",
-    contadorTexto: "rgba(255, 255, 255, 0.78)",
-    miniBoxes: "rgba(0, 0, 0, 0.26)",
-    bordeMiniBoxes: "rgba(255, 255, 255, 0.12)",
-    panelRegalo: "rgba(0, 0, 0, 0.28)",
-    bordePanelRegalo: "rgba(255, 255, 255, 0.16)",
-    overlayArriba: "rgba(0, 0, 0, 0.34)",
-    overlayAbajo: "rgba(0, 0, 0, 0.58)",
-    overlayLados: "rgba(0, 0, 0, 0.50)",
-    overlayCentro: "rgba(0, 0, 0, 0.16)",
-    sombra: "rgba(0, 0, 0, 0.28)"
-  },
-  champan: {
-    fondo: "#100d08",
-    nombre: "#fffaf0",
-    mis15: "#f0d79a",
-    textosSueltos: "#fffaf0",
-    titulos: "#f0d79a",
-    iconos: "#fff0c7",
-    textoBoxes: "#fffaf0",
-    textoBoxesSuave: "rgba(255, 250, 240, 0.76)",
-    boxes: "rgba(255, 236, 190, 0.15)",
-    bordeBoxes: "rgba(255, 247, 225, 0.24)",
-    botonFondo1: "#f0d79a",
-    botonFondo2: "#fff4d7",
-    botonTexto: "#241a07",
-    botonBorde: "rgba(255, 255, 255, 0.30)",
-    contadorNumeros: "#fff4d7",
-    contadorTexto: "rgba(255, 250, 240, 0.76)",
-    miniBoxes: "rgba(0, 0, 0, 0.27)",
-    bordeMiniBoxes: "rgba(255, 255, 255, 0.12)",
-    panelRegalo: "rgba(0, 0, 0, 0.29)",
-    bordePanelRegalo: "rgba(255, 255, 255, 0.16)",
-    overlayArriba: "rgba(0, 0, 0, 0.34)",
-    overlayAbajo: "rgba(0, 0, 0, 0.59)",
-    overlayLados: "rgba(0, 0, 0, 0.51)",
-    overlayCentro: "rgba(0, 0, 0, 0.16)",
-    sombra: "rgba(0, 0, 0, 0.29)"
-  },
-  verde: {
-    fondo: "#06100b",
-    nombre: "#ffffff",
-    mis15: "#b8dfca",
-    textosSueltos: "#ffffff",
-    titulos: "#b8dfca",
-    iconos: "#e8fff1",
-    textoBoxes: "#ffffff",
-    textoBoxesSuave: "rgba(255, 255, 255, 0.78)",
-    boxes: "rgba(226, 255, 239, 0.16)",
-    bordeBoxes: "rgba(255, 255, 255, 0.22)",
-    botonFondo1: "#b8dfca",
-    botonFondo2: "#e8fff1",
-    botonTexto: "#07180e",
-    botonBorde: "rgba(255, 255, 255, 0.30)",
-    contadorNumeros: "#e8fff1",
-    contadorTexto: "rgba(255, 255, 255, 0.78)",
-    miniBoxes: "rgba(0, 0, 0, 0.26)",
-    bordeMiniBoxes: "rgba(255, 255, 255, 0.12)",
-    panelRegalo: "rgba(0, 0, 0, 0.28)",
-    bordePanelRegalo: "rgba(255, 255, 255, 0.16)",
-    overlayArriba: "rgba(0, 0, 0, 0.34)",
-    overlayAbajo: "rgba(0, 0, 0, 0.58)",
-    overlayLados: "rgba(0, 0, 0, 0.50)",
-    overlayCentro: "rgba(0, 0, 0, 0.16)",
-    sombra: "rgba(0, 0, 0, 0.28)"
-  },
-  esmeralda: {
-    fondo: "#03110d",
-    nombre: "#f3fff9",
-    mis15: "#70d6a5",
-    textosSueltos: "#f3fff9",
-    titulos: "#70d6a5",
-    iconos: "#bfffe0",
-    textoBoxes: "#f3fff9",
-    textoBoxesSuave: "rgba(243, 255, 249, 0.76)",
-    boxes: "rgba(144, 236, 184, 0.16)",
-    bordeBoxes: "rgba(220, 255, 235, 0.23)",
-    botonFondo1: "#70d6a5",
-    botonFondo2: "#d8ffe9",
-    botonTexto: "#03160d",
-    botonBorde: "rgba(255, 255, 255, 0.30)",
-    contadorNumeros: "#d8ffe9",
-    contadorTexto: "rgba(243, 255, 249, 0.76)",
-    miniBoxes: "rgba(0, 0, 0, 0.28)",
-    bordeMiniBoxes: "rgba(255, 255, 255, 0.12)",
-    panelRegalo: "rgba(0, 0, 0, 0.30)",
-    bordePanelRegalo: "rgba(255, 255, 255, 0.16)",
-    overlayArriba: "rgba(0, 0, 0, 0.8)",
-    overlayAbajo: "rgba(0, 0, 0, 0)",
-    overlayLados: "rgba(0, 0, 0, 0)",
-    overlayCentro: "rgba(0, 0, 0, 0)",
-    sombra: "rgba(0, 0, 0, 0.30)"
-  },
-  borgona: {
-    fondo: "#120407",
-    nombre: "#fff8f4",
-    mis15: "#d9a06f",
-    textosSueltos: "#fff8f4",
-    titulos: "#e3b486",
-    iconos: "#ffd6b0",
-    textoBoxes: "#fff8f4",
-    textoBoxesSuave: "rgba(255, 248, 244, 0.76)",
-    boxes: "rgba(155, 34, 58, 0.22)",
-    bordeBoxes: "rgba(255, 219, 190, 0.22)",
-    botonFondo1: "#9b223a",
-    botonFondo2: "#e3b486",
-    botonTexto: "#fff8f4",
-    botonBorde: "rgba(255, 230, 210, 0.28)",
-    contadorNumeros: "#ffd6b0",
-    contadorTexto: "rgba(255, 248, 244, 0.76)",
-    miniBoxes: "rgba(0, 0, 0, 0.30)",
-    bordeMiniBoxes: "rgba(255, 255, 255, 0.12)",
-    panelRegalo: "rgba(0, 0, 0, 0.32)",
-    bordePanelRegalo: "rgba(255, 255, 255, 0.16)",
-    overlayArriba: "rgba(0, 0, 0, 0.36)",
-    overlayAbajo: "rgba(0, 0, 0, 0.62)",
-    overlayLados: "rgba(0, 0, 0, 0.54)",
-    overlayCentro: "rgba(0, 0, 0, 0.18)",
-    sombra: "rgba(0, 0, 0, 0.32)"
-  },
-  coral: {
-    fondo: "#120807",
-    nombre: "#fff8f5",
-    mis15: "#ffad99",
-    textosSueltos: "#fff8f5",
-    titulos: "#ffad99",
-    iconos: "#ffd0c4",
-    textoBoxes: "#fff8f5",
-    textoBoxesSuave: "rgba(255, 248, 245, 0.76)",
-    boxes: "rgba(255, 173, 153, 0.17)",
-    bordeBoxes: "rgba(255, 232, 225, 0.24)",
-    botonFondo1: "#ff8f77",
-    botonFondo2: "#ffd0c4",
-    botonTexto: "#2a0d07",
-    botonBorde: "rgba(255, 255, 255, 0.30)",
-    contadorNumeros: "#ffd0c4",
-    contadorTexto: "rgba(255, 248, 245, 0.76)",
-    miniBoxes: "rgba(0, 0, 0, 0.28)",
-    bordeMiniBoxes: "rgba(255, 255, 255, 0.12)",
-    panelRegalo: "rgba(0, 0, 0, 0.30)",
-    bordePanelRegalo: "rgba(255, 255, 255, 0.16)",
-    overlayArriba: "rgba(0, 0, 0, 0.35)",
-    overlayAbajo: "rgba(0, 0, 0, 0.60)",
-    overlayLados: "rgba(0, 0, 0, 0.52)",
-    overlayCentro: "rgba(0, 0, 0, 0.17)",
-    sombra: "rgba(0, 0, 0, 0.30)"
-  },
-  perla: {
-    fondo: "#0b0b0b",
-    nombre: "#ffffff",
-    mis15: "#f1eee8",
-    textosSueltos: "#ffffff",
-    titulos: "#f1eee8",
-    iconos: "#ffffff",
-    textoBoxes: "#ffffff",
-    textoBoxesSuave: "rgba(255, 255, 255, 0.76)",
-    boxes: "rgba(255, 255, 255, 0.15)",
-    bordeBoxes: "rgba(255, 255, 255, 0.26)",
-    botonFondo1: "#ffffff",
-    botonFondo2: "#d8d3ca",
-    botonTexto: "#111111",
-    botonBorde: "rgba(255, 255, 255, 0.34)",
-    contadorNumeros: "#ffffff",
-    contadorTexto: "rgba(255, 255, 255, 0.76)",
-    miniBoxes: "rgba(0, 0, 0, 0.28)",
-    bordeMiniBoxes: "rgba(255, 255, 255, 0.13)",
-    panelRegalo: "rgba(0, 0, 0, 0.30)",
-    bordePanelRegalo: "rgba(255, 255, 255, 0.17)",
-    overlayArriba: "rgba(0, 0, 0, 0.34)",
-    overlayAbajo: "rgba(0, 0, 0, 0.60)",
-    overlayLados: "rgba(0, 0, 0, 0.52)",
-    overlayCentro: "rgba(0, 0, 0, 0.17)",
-    sombra: "rgba(0, 0, 0, 0.30)"
-  },
-  noche: {
-    fondo: "#03050b",
-    nombre: "#ffffff",
-    mis15: "#b9c7ff",
-    textosSueltos: "#ffffff",
-    titulos: "#b9c7ff",
-    iconos: "#dce4ff",
-    textoBoxes: "#ffffff",
-    textoBoxesSuave: "rgba(255, 255, 255, 0.76)",
-    boxes: "rgba(185, 199, 255, 0.14)",
-    bordeBoxes: "rgba(230, 235, 255, 0.22)",
-    botonFondo1: "#b9c7ff",
-    botonFondo2: "#eef2ff",
-    botonTexto: "#050918",
-    botonBorde: "rgba(255, 255, 255, 0.30)",
-    contadorNumeros: "#eef2ff",
-    contadorTexto: "rgba(255, 255, 255, 0.76)",
-    miniBoxes: "rgba(0, 0, 0, 0.30)",
-    bordeMiniBoxes: "rgba(255, 255, 255, 0.12)",
-    panelRegalo: "rgba(0, 0, 0, 0.32)",
-    bordePanelRegalo: "rgba(255, 255, 255, 0.16)",
-    overlayArriba: "rgba(0, 0, 0, 0.36)",
-    overlayAbajo: "rgba(0, 0, 0, 0.63)",
-    overlayLados: "rgba(0, 0, 0, 0.55)",
-    overlayCentro: "rgba(0, 0, 0, 0.18)",
-    sombra: "rgba(0, 0, 0, 0.32)"
-  },
-  blancoDorado: {
-    fondo: "#090806",
-    nombre: "#ffffff",
-    mis15: "#f4d98b",
-    textosSueltos: "#ffffff",
-    titulos: "#f4d98b",
-    iconos: "#fff2bf",
-    textoBoxes: "#ffffff",
-    textoBoxesSuave: "rgba(255, 255, 255, 0.78)",
-    boxes: "rgba(255, 255, 255, 0.14)",
-    bordeBoxes: "rgba(244, 217, 139, 0.30)",
-    botonFondo1: "#f4d98b",
-    botonFondo2: "#ffffff",
-    botonTexto: "#211806",
-    botonBorde: "rgba(255, 255, 255, 0.34)",
-    contadorNumeros: "#fff2bf",
-    contadorTexto: "rgba(255, 255, 255, 0.78)",
-    miniBoxes: "rgba(0, 0, 0, 0.28)",
-    bordeMiniBoxes: "rgba(255, 255, 255, 0.13)",
-    panelRegalo: "rgba(0, 0, 0, 0.30)",
-    bordePanelRegalo: "rgba(244, 217, 139, 0.24)",
-    overlayArriba: "rgba(0, 0, 0, 0.34)",
-    overlayAbajo: "rgba(0, 0, 0, 0.60)",
-    overlayLados: "rgba(0, 0, 0, 0.52)",
-    overlayCentro: "rgba(0, 0, 0, 0.17)",
-    sombra: "rgba(0, 0, 0, 0.30)"
-  }
+  rosa: { fondo: "#080607", nombre: "#9b223a", mis15: "#e8b7c6", textosSueltos: "#ffffff", titulos: "#e8b7c6", iconos: "#e8b7c6", textoBoxes: "#ffffff", textoBoxesSuave: "rgba(255, 255, 255, 0.78)", boxes: "rgba(255, 235, 242, 0.18)", bordeBoxes: "rgba(255, 255, 255, 0.25)", botonFondo1: "#e8b7c6", botonFondo2: "#ffe3eb", botonTexto: "#211318", botonBorde: "rgba(255, 255, 255, 0.30)", contadorNumeros: "#ffe3eb", contadorTexto: "rgba(255, 255, 255, 0.78)", miniBoxes: "rgba(0, 0, 0, 0.26)", bordeMiniBoxes: "rgba(255, 255, 255, 0.12)", panelRegalo: "rgba(0, 0, 0, 0.28)", bordePanelRegalo: "rgba(255, 255, 255, 0.16)", overlayArriba: "rgba(0, 0, 0, 0.34)", overlayAbajo: "rgba(0, 0, 0, 0.58)", overlayLados: "rgba(0, 0, 0, 0.50)", overlayCentro: "rgba(0, 0, 0, 0.16)", sombra: "rgba(0, 0, 0, 0.28)" },
+  esmeralda: { fondo: "#03110d", nombre: "#f3fff9", mis15: "#70d6a5", textosSueltos: "#f3fff9", titulos: "#70d6a5", iconos: "#bfffe0", textoBoxes: "#f3fff9", textoBoxesSuave: "rgba(243, 255, 249, 0.76)", boxes: "rgba(144, 236, 184, 0.16)", bordeBoxes: "rgba(220, 255, 235, 0.23)", botonFondo1: "#70d6a5", botonFondo2: "#d8ffe9", botonTexto: "#03160d", botonBorde: "rgba(255, 255, 255, 0.30)", contadorNumeros: "#d8ffe9", contadorTexto: "rgba(243, 255, 249, 0.76)", miniBoxes: "rgba(0, 0, 0, 0.28)", bordeMiniBoxes: "rgba(255, 255, 255, 0.12)", panelRegalo: "rgba(0, 0, 0, 0.30)", bordePanelRegalo: "rgba(255, 255, 255, 0.16)", overlayArriba: "rgba(0, 0, 0, 0)", overlayAbajo: "rgba(0, 0, 0, 0)", overlayLados: "rgba(0, 0, 0, 0)", overlayCentro: "rgba(0, 0, 0, 0)", sombra: "rgba(0, 0, 0, 0.30)" }
 };
 
 const FUENTES = {
-  elegante: {
-    titulo: "'Great Vibes', cursive",
-    texto: "'Cormorant Garamond', serif"
-  },
-  romantica: {
-    titulo: "'Parisienne', cursive",
-    texto: "'Lora', serif"
-  },
-  moderna: {
-    titulo: "'Playfair Display', serif",
-    texto: "'Montserrat', sans-serif"
-  },
-  dulce: {
-    titulo: "'Sacramento', cursive",
-    texto: "'Quicksand', sans-serif"
-  },
-  clasica: {
-    titulo: "'Allura', cursive",
-    texto: "'Libre Baskerville', serif"
-  },
-  glam: {
-    titulo: "'Dancing Script', cursive",
-    texto: "'Marcellus', serif"
-  },
-  princesa: {
-    titulo: "'Petit Formal Script', cursive",
-    texto: "'EB Garamond', serif"
-  },
-  editorial: {
-    titulo: "'Playfair Display', serif",
-    texto: "'Josefin Sans', sans-serif"
-  },
-  minimal: {
-    titulo: "'Cinzel', serif",
-    texto: "'Poppins', sans-serif"
-  },
-  boho: {
-    titulo: "'Forum', serif",
-    texto: "'Lora', serif"
-  },
-  delicada: {
-    titulo: "'Allura', cursive",
-    texto: "'Cormorant Garamond', serif"
-  },
-  formal: {
-    titulo: "'Cinzel', serif",
-    texto: "'Libre Baskerville', serif"
-  }
+  elegante: { titulo: "'Great Vibes', cursive", texto: "'Cormorant Garamond', serif" },
+  princesa: { titulo: "'Petit Formal Script', cursive", texto: "'EB Garamond', serif" },
+  editorial: { titulo: "'Playfair Display', serif", texto: "'Josefin Sans', sans-serif" }
 };
 
 const VARIABLES_COLOR = {
-  fondo: "--color-fondo",
-  nombre: "--color-nombre",
-  mis15: "--color-mis15",
-  textosSueltos: "--color-texto-suelto",
-  titulos: "--color-titulo",
-  iconos: "--color-icono",
-  textoBoxes: "--color-texto-box",
-  textoBoxesSuave: "--color-texto-box-suave",
-  boxes: "--color-box",
-  bordeBoxes: "--color-box-borde",
-  botonFondo1: "--color-boton-1",
-  botonFondo2: "--color-boton-2",
-  botonTexto: "--color-boton-texto",
-  botonBorde: "--color-boton-borde",
-  contadorNumeros: "--color-contador-numero",
-  contadorTexto: "--color-contador-texto",
-  miniBoxes: "--color-mini-box",
-  bordeMiniBoxes: "--color-mini-box-borde",
-  panelRegalo: "--color-panel",
-  bordePanelRegalo: "--color-panel-borde",
-  overlayArriba: "--color-overlay-arriba",
-  overlayAbajo: "--color-overlay-abajo",
-  overlayLados: "--color-overlay-lados",
-  overlayCentro: "--color-overlay-centro",
-  sombra: "--sombra"
+  fondo: "--color-fondo", nombre: "--color-nombre", mis15: "--color-mis15", textosSueltos: "--color-texto-suelto", titulos: "--color-titulo", iconos: "--color-icono", textoBoxes: "--color-texto-box", textoBoxesSuave: "--color-texto-box-suave", boxes: "--color-box", bordeBoxes: "--color-box-borde", botonFondo1: "--color-boton-1", botonFondo2: "--color-boton-2", botonTexto: "--color-boton-texto", botonBorde: "--color-boton-borde", contadorNumeros: "--color-contador-numero", contadorTexto: "--color-contador-texto", miniBoxes: "--color-mini-box", bordeMiniBoxes: "--color-mini-box-borde", panelRegalo: "--color-panel", bordePanelRegalo: "--color-panel-borde", overlayArriba: "--color-overlay-arriba", overlayAbajo: "--color-overlay-abajo", overlayLados: "--color-overlay-lados", overlayCentro: "--color-overlay-centro", sombra: "--sombra"
 };
 
-let currentSlide = 0;
-let sliderTimer;
+let currentSlide = 0; let sliderTimer;
 
-function aplicarColores() {
+function aplicarColoresYFuentes() {
   const paleta = PALETAS[CONFIG.paleta] || PALETAS.rosa;
   const coloresFinales = { ...paleta };
-
-  Object.keys(CONFIG.colores || {}).forEach(nombreColor => {
-    const valor = CONFIG.colores[nombreColor];
-    if (typeof valor === "string" && valor.trim() !== "") {
-      coloresFinales[nombreColor] = valor.trim();
-    }
-  });
-
-  const root = document.documentElement;
-
-  Object.entries(VARIABLES_COLOR).forEach(([nombreColor, variableCss]) => {
-    if (coloresFinales[nombreColor]) {
-      root.style.setProperty(variableCss, coloresFinales[nombreColor]);
-    }
-  });
-}
-
-function aplicarFuentes() {
   const fuentes = FUENTES[CONFIG.fuentes] || FUENTES.elegante;
   const root = document.documentElement;
+
+  Object.keys(CONFIG.colores || {}).forEach(nc => {
+    if (typeof CONFIG.colores[nc] === "string" && CONFIG.colores[nc].trim() !== "") coloresFinales[nc] = CONFIG.colores[nc].trim();
+  });
+  Object.entries(VARIABLES_COLOR).forEach(([nc, vc]) => {
+    if (coloresFinales[nc]) root.style.setProperty(vc, coloresFinales[nc]);
+  });
   root.style.setProperty("--title-font", fuentes.titulo);
   root.style.setProperty("--body-font", fuentes.texto);
 }
 
-function cargarDatos() {
-  document.getElementById("name").innerText = CONFIG.nombre;
-  document.getElementById("dateText").innerText = CONFIG.fechaTexto;
-  document.getElementById("timeText").innerText = CONFIG.horaTexto;
-  document.getElementById("venueText").innerText = CONFIG.salon;
-  document.getElementById("addressText").innerText = CONFIG.direccion;
-  document.getElementById("mapLink").href = CONFIG.mapa;
-document.getElementById("dressCodeText").innerHTML = CONFIG.dressCode;
+function aplicarEdicionAvanzada() {
+  const r = document.documentElement;
+  const ed = CONFIG.edicionAvanzada;
 
+  // Textos libres
+  r.style.setProperty('--m15-mt', ed.textos.mis15.margenArriba);
+  r.style.setProperty('--m15-mb', ed.textos.mis15.margenAbajo);
+  r.style.setProperty('--m15-ml', ed.textos.mis15.margenIzquierda);
+  r.style.setProperty('--m15-mr', ed.textos.mis15.margenDerecha);
+  r.style.setProperty('--m15-font', ed.textos.mis15.fuente);
+  r.style.setProperty('--m15-size', ed.textos.mis15.tamaño);
+  r.style.setProperty('--m15-color', ed.textos.mis15.color);
+  r.style.setProperty('--m15-lh', ed.textos.mis15.interlineado);
+
+  r.style.setProperty('--nom-mt', ed.textos.nombre.margenArriba);
+  r.style.setProperty('--nom-mb', ed.textos.nombre.margenAbajo);
+  r.style.setProperty('--nom-ml', ed.textos.nombre.margenIzquierda);
+  r.style.setProperty('--nom-mr', ed.textos.nombre.margenDerecha);
+  r.style.setProperty('--nom-font', ed.textos.nombre.fuente);
+  r.style.setProperty('--nom-size', ed.textos.nombre.tamaño);
+  r.style.setProperty('--nom-color', ed.textos.nombre.color);
+  r.style.setProperty('--nom-lh', ed.textos.nombre.interlineado);
+
+  r.style.setProperty('--intro-mt', ed.textos.introduccion.margenArriba);
+  r.style.setProperty('--intro-mb', ed.textos.introduccion.margenAbajo);
+  r.style.setProperty('--intro-ml', ed.textos.introduccion.margenIzquierda);
+  r.style.setProperty('--intro-mr', ed.textos.introduccion.margenDerecha);
+  r.style.setProperty('--intro-font', ed.textos.introduccion.fuente);
+  r.style.setProperty('--intro-size', ed.textos.introduccion.tamaño);
+  r.style.setProperty('--intro-color', ed.textos.introduccion.color);
+  r.style.setProperty('--intro-lh', ed.textos.introduccion.interlineado);
+
+  r.style.setProperty('--fin-mt', ed.textos.mensajeFinal.margenArriba);
+  r.style.setProperty('--fin-mb', ed.textos.mensajeFinal.margenAbajo);
+  r.style.setProperty('--fin-ml', ed.textos.mensajeFinal.margenIzquierda);
+  r.style.setProperty('--fin-mr', ed.textos.mensajeFinal.margenDerecha);
+  r.style.setProperty('--fin-font', ed.textos.mensajeFinal.fuente);
+  r.style.setProperty('--fin-size', ed.textos.mensajeFinal.tamaño);
+  r.style.setProperty('--fin-color', ed.textos.mensajeFinal.color);
+  r.style.setProperty('--fin-lh', ed.textos.mensajeFinal.interlineado);
+
+  // Cajas (Boxes)
+  r.style.setProperty('--tit-box-font', ed.cajas.titulos.fuente);
+  r.style.setProperty('--tit-box-size', ed.cajas.titulos.tamaño);
+  r.style.setProperty('--tit-box-color', ed.cajas.titulos.color);
+  r.style.setProperty('--tit-box-mt', ed.cajas.titulos.margenArriba);
+  r.style.setProperty('--tit-box-mb', ed.cajas.titulos.margenAbajo);
+  r.style.setProperty('--tit-box-lh', ed.cajas.titulos.interlineado);
+
+  r.style.setProperty('--txt-box-font', ed.cajas.textos.fuente);
+  r.style.setProperty('--txt-box-size', ed.cajas.textos.tamaño);
+  r.style.setProperty('--txt-box-color', ed.cajas.textos.color);
+  r.style.setProperty('--txt-box-mt', ed.cajas.textos.margenArriba);
+  r.style.setProperty('--txt-box-mb', ed.cajas.textos.margenAbajo);
+  r.style.setProperty('--txt-box-lh', ed.cajas.textos.interlineado);
+
+  r.style.setProperty('--box-margen-fuera', ed.cajas.diseñoBox.margenExterior);
+  r.style.setProperty('--box-padding', ed.cajas.diseñoBox.rellenoInterior);
+
+  // Botones
+  r.style.setProperty('--distancia-botones', ed.botones.distanciaEntreBotones);
+}
+
+function cargarDatos() {
+  document.getElementById("name").innerHTML = CONFIG.nombre;
+  document.getElementById("dateText").innerHTML = CONFIG.fechaTexto;
+  document.getElementById("timeText").innerHTML = CONFIG.horaTexto;
+  document.getElementById("venueText").innerHTML = CONFIG.salon;
+  document.getElementById("addressText").innerHTML = CONFIG.direccion;
+  document.getElementById("mapLink").href = CONFIG.mapa;
+  document.getElementById("dressCodeText").innerHTML = CONFIG.dressCode;
   document.getElementById("confirmLink").href = CONFIG.formularioAsistencia;
 }
 
 function configurarExtras() {
-  const giftModule = document.getElementById("giftModule");
-  const playlistModule = document.getElementById("playlistModule");
-  const albumFotosModule = document.getElementById("albumFotosModule");
-
-  giftModule.hidden = !CONFIG.mostrarRegalo;
-playlistModule.hidden = !CONFIG.mostrarPlaylist;
-albumFotosModule.hidden = !CONFIG.mostrarAlbumFotos;
+  document.getElementById("giftModule").hidden = !CONFIG.mostrarRegalo;
+  document.getElementById("playlistModule").hidden = !CONFIG.mostrarPlaylist;
+  document.getElementById("albumFotosModule").hidden = !CONFIG.mostrarAlbumFotos;
 
   if (CONFIG.mostrarRegalo) {
     document.getElementById("giftTitular").innerText = CONFIG.regalo.titular;
     document.getElementById("giftBanco").innerText = CONFIG.regalo.banco;
-    
     document.getElementById("giftCuenta").innerText = CONFIG.regalo.cuenta;
     document.getElementById("giftCi").innerText = CONFIG.regalo.ci;
   }
-
   if (CONFIG.mostrarPlaylist) {
-  const playlistLink = document.getElementById("playlistLink");
-
-  if (CONFIG.playlistTipo === "google") {
-    playlistLink.href = CONFIG.playlistLink;
+    const pLink = document.getElementById("playlistLink");
+    pLink.href = CONFIG.playlistTipo === "google" ? CONFIG.playlistLink : CONFIG.spotifyLink;
   }
-
-  if (CONFIG.playlistTipo === "spotify") {
-    playlistLink.href = CONFIG.spotifyLink;
-    playlistLink.target = "_blank";
-  }
-}
   if (CONFIG.mostrarAlbumFotos) {
-  document.getElementById("albumFotosLink").href = CONFIG.albumFotosLink;
-}
+    document.getElementById("albumFotosLink").href = CONFIG.albumFotosLink;
   }
+}
 
 function actualizarCuentaRegresiva() {
   const now = Date.now();
   const diff = new Date(CONFIG.fechaEvento).getTime() - now;
   const restante = Math.max(diff, 0);
+
+  // Requerimiento 7: Detener en 0 y mostrar mensaje
+  if (restante <= 0) {
+    document.getElementById("countdown-container").style.display = "none";
+    document.getElementById("mensaje-llegada").style.display = "block";
+    return; // Detiene la ejecución para no mostrar negativos
+  }
 
   document.getElementById("d").innerText = Math.floor(restante / 86400000);
   document.getElementById("h").innerText = Math.floor((restante % 86400000) / 3600000);
@@ -1465,135 +885,70 @@ function actualizarCuentaRegresiva() {
   document.getElementById("s").innerText = Math.floor((restante % 60000) / 1000);
 }
 
-function scrollToInfo() {
-  document.getElementById("info").scrollIntoView({ behavior: "smooth" });
-}
-
-function toggleMusic() {
-  const music = document.getElementById("music");
-  music.paused ? music.play() : music.pause();
-}
-
-function toggleGiftPanel() {
-  const panel = document.getElementById("giftPanel");
-  panel.hidden = !panel.hidden;
-}
+function scrollToInfo() { document.getElementById("info").scrollIntoView({ behavior: "smooth" }); }
+function toggleMusic() { const m = document.getElementById("music"); m.paused ? m.play() : m.pause(); }
+function toggleGiftPanel() { const p = document.getElementById("giftPanel"); p.hidden = !p.hidden; }
 
 function copiarDato(valor) {
   if (!valor) return;
-
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(valor);
-    return;
-  }
-
+  if (navigator.clipboard) { navigator.clipboard.writeText(valor); return; }
   const input = document.createElement("input");
-  input.value = valor;
-  document.body.appendChild(input);
-  input.select();
-  document.execCommand("copy");
-  input.remove();
+  input.value = valor; document.body.appendChild(input);
+  input.select(); document.execCommand("copy"); input.remove();
 }
 
 function iniciarCarrusel() {
   const track = document.getElementById("carouselTrack");
   const dots = document.getElementById("carouselDots");
+  if(!CONFIG.fotos || CONFIG.fotos.length === 0) return;
 
   CONFIG.fotos.forEach((foto, index) => {
-    const frame = document.createElement("div");
-    frame.className = "slide-frame";
-
-    const bg = document.createElement("img");
-    bg.className = "slide-bg";
-    bg.src = foto;
-    bg.alt = "";
-    bg.setAttribute("aria-hidden", "true");
-
-    const img = document.createElement("img");
-    img.className = "slide";
-    img.src = foto;
-    img.alt = `Recuerdo ${index + 1}`;
-
-    frame.appendChild(bg);
-    frame.appendChild(img);
-    track.appendChild(frame);
-
-    const dot = document.createElement("button");
-    dot.className = "carousel-dot";
-    dot.type = "button";
-    dot.addEventListener("click", () => irASlide(index));
-    dots.appendChild(dot);
+    const frame = document.createElement("div"); frame.className = "slide-frame";
+    const bg = document.createElement("img"); bg.className = "slide-bg"; bg.src = foto; bg.setAttribute("aria-hidden", "true");
+    const img = document.createElement("img"); img.className = "slide"; img.src = foto; img.alt = `Recuerdo ${index + 1}`;
+    frame.appendChild(bg); frame.appendChild(img); track.appendChild(frame);
+    const dot = document.createElement("button"); dot.className = "carousel-dot"; dot.type = "button";
+    dot.addEventListener("click", () => irASlide(index)); dots.appendChild(dot);
   });
 
   document.querySelector(".carousel-btn.prev").addEventListener("click", () => cambiarSlide(-1));
   document.querySelector(".carousel-btn.next").addEventListener("click", () => cambiarSlide(1));
 
-  let startX = 0;
-  let endX = 0;
-  const viewport = document.querySelector(".carousel-viewport");
-
-  viewport.addEventListener("touchstart", event => {
-    startX = event.touches[0].clientX;
-  }, { passive: true });
-
-  viewport.addEventListener("touchmove", event => {
-    endX = event.touches[0].clientX;
-  }, { passive: true });
-
+  let startX = 0, endX = 0; const viewport = document.querySelector(".carousel-viewport");
+  viewport.addEventListener("touchstart", e => startX = e.touches[0].clientX, { passive: true });
+  viewport.addEventListener("touchmove", e => endX = e.touches[0].clientX, { passive: true });
   viewport.addEventListener("touchend", () => {
-    const distancia = endX - startX;
-    if (Math.abs(distancia) > 45) {
-      cambiarSlide(distancia > 0 ? -1 : 1);
-    }
-    startX = 0;
-    endX = 0;
+    const dist = endX - startX; if (Math.abs(dist) > 45) cambiarSlide(dist > 0 ? -1 : 1);
+    startX = 0; endX = 0;
   });
-
-  viewport.addEventListener("mousedown", event => {
-    startX = event.clientX;
-  });
-
-  viewport.addEventListener("mouseup", event => {
-    const distancia = event.clientX - startX;
-    if (Math.abs(distancia) > 45) {
-      cambiarSlide(distancia > 0 ? -1 : 1);
-    }
+  viewport.addEventListener("mousedown", e => startX = e.clientX);
+  viewport.addEventListener("mouseup", e => {
+    const dist = e.clientX - startX; if (Math.abs(dist) > 45) cambiarSlide(dist > 0 ? -1 : 1);
     startX = 0;
   });
 
-  irASlide(0);
-  reiniciarAutoplay();
+  irASlide(0); reiniciarAutoplay();
 }
 
 function irASlide(index) {
-  const total = CONFIG.fotos.length;
-  currentSlide = (index + total) % total;
+  const total = CONFIG.fotos.length; currentSlide = (index + total) % total;
   document.getElementById("carouselTrack").style.transform = `translateX(-${currentSlide * 100}%)`;
-
-  document.querySelectorAll(".carousel-dot").forEach((dot, dotIndex) => {
-    dot.classList.toggle("active", dotIndex === currentSlide);
-  });
-
+  document.querySelectorAll(".carousel-dot").forEach((dot, idx) => dot.classList.toggle("active", idx === currentSlide));
   reiniciarAutoplay();
 }
 
-function cambiarSlide(direction) {
-  irASlide(currentSlide + direction);
-}
+function cambiarSlide(dir) { irASlide(currentSlide + dir); }
+function reiniciarAutoplay() { clearInterval(sliderTimer); sliderTimer = setInterval(() => cambiarSlide(1), 3600); }
 
-function reiniciarAutoplay() {
-  clearInterval(sliderTimer);
-  sliderTimer = setInterval(() => cambiarSlide(1), 3600);
-}
-
-aplicarColores();
-aplicarFuentes();
+// Inicialización
+aplicarColoresYFuentes();
+aplicarEdicionAvanzada();
 cargarDatos();
 configurarExtras();
 actualizarCuentaRegresiva();
 setInterval(actualizarCuentaRegresiva, 1000);
 window.addEventListener("load", iniciarCarrusel);
-</script>
 
+</script>
 </body>
 </html>
